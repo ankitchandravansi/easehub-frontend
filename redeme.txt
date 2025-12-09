@@ -1,0 +1,71 @@
+=========================
+EaseHub — Project Summary
+=========================
+
+👤 Developer: Ankit Chandravansi
+🎓 Project Type: Student Service Platform
+📅 Date: November 2025
+
+-------------------------------------------------
+1️⃣ Project Overview
+-------------------------------------------------
+EaseHub simplifies student life by providing three major services:
+- 🏠 Accommodation (Find Your Stay)
+- 🍱 Healthy Meals
+- 👕 Laundry Services
+- 🧹 Extra Services (Room Cleaning, Maintenance, etc.)
+
+Goal: To make student living simple, transparent, and affordable.
+
+-------------------------------------------------
+2️⃣ Tech Stack
+-------------------------------------------------
+- HTML5
+- CSS3
+- JavaScript (Vanilla JS)
+- (Optional: Bootstrap / Tailwind for responsiveness)
+
+-------------------------------------------------
+3️⃣ How to Run
+-------------------------------------------------
+Option 1:
+- Open `index.html` directly in your browser.
+
+Option 2 (recommended):
+- Open folder in VS Code.
+- Install **Live Server** extension.
+- Right-click `index.html` → "Open with Live Server".
+
+-------------------------------------------------
+4️⃣ Features
+-------------------------------------------------
+✅ Responsive design for desktop and mobile.
+✅ Interactive cards for each service.
+✅ Smooth navigation bar and call-to-action button.
+✅ Clean and modern UI.
+✅ Easily expandable (can add more services later).
+
+-------------------------------------------------
+5️⃣ Folder Structure
+-------------------------------------------------
+EaseHub/
+│
+├── index.html        → Main file
+├── style.css         → Styling
+├── script.js         → Interactivity
+├── /images           → Image assets
+├── /assets           → Logos, icons
+└── README.txt        → Project summary
+
+-------------------------------------------------
+6️⃣ Developer Notes
+-------------------------------------------------
+- All links and buttons are functional (scroll/navigation based).
+- Laundry image uses Unsplash placeholder (can be replaced easily).
+- Ready for handover and presentation.
+
+-------------------------------------------------
+7️⃣ Contact
+-------------------------------------------------
+📧 ankit@example.com
+📍 College Name / Organization (optional)

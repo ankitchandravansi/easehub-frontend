@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Links</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Container to center and space the icons */
+        .social-menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            /* Space between icons */
+            padding: 20px;
+            background-color: #f4f4f4;
+            /* Light gray background */
+            border-radius: 10px;
+        }
+
+        /* Basic Icon Style */
+        .social-icon {
+            text-decoration: none;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            border-radius: 50%;
+            /* Makes them circular */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            /* Smooth animation */
+            font-size: 24px;
+            /* Icon size */
+            color: #333;
+            /* Default dark gray icon color */
+        }
+
+        /* Hover Effect: Move up slightly */
+        .social-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            color: white;
+            /* Icon turns white on hover */
+        }
+
+        /* --- Specific Brand Colors on Hover --- */
+
+        /* Facebook Blue */
+        .social-icon.facebook:hover {
+            background-color: #1877F2;
+        }
+
+        /* Twitter/X Black */
+        .social-icon.twitter:hover {
+            background-color: #000000;
+        }
+
+        /* Instagram Gradient */
+        .social-icon.instagram:hover {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        /* LinkedIn Blue */
+        .social-icon.linkedin:hover {
+            background-color: #0077b5;
+        }
+
+        /* YouTube Red */
+        .social-icon.youtube:hover {
+            background-color: #FF0000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="social-menu">
+
+        <a href="https://www.facebook.com" target="_blank" class="social-icon facebook">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+
+        <a href="https://www.twitter.com" target="_blank" class="social-icon twitter">
+            <i class="fab fa-x-twitter"></i>
+        </a>
+
+        <a href="https://www.instagram.com" target="_blank" class="social-icon instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+
+        <a href="https://www.linkedin.com" target="_blank" class="social-icon linkedin">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+
+        <a href="https://www.youtube.com" target="_blank" class="social-icon youtube">
+            <i class="fab fa-youtube"></i>
+        </a>
+
+    </div>
+
+</body>
+
+</html>

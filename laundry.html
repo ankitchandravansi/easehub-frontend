@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EaseHub — Laundry</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <style>
+    /* --- Layout & Structure --- */
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    h1,
+    h2,
+    h3,
+    .brand-title {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #ff6b00;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    .nav-links a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background-color: #ff6b00;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* Hero Section */
+    .laundry-hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 40px 0;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 30px;
+    }
+
+    .hero-text h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      margin-top: 0;
+    }
+
+    .hero-text p {
+      color: #666;
+      font-size: 1.1rem;
+      max-width: 500px;
+    }
+
+    .btn-ghost {
+      color: #666;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      padding: 8px 15px;
+      border-radius: 5px;
+    }
+
+    /* Grid System */
+    .laundry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-top: 20px;
+      padding-bottom: 50px;
+    }
+
+    /* Card Design */
+    .laundry-card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .laundry-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .laundry-img-wrapper {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .laundry-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .laundry-card:hover .laundry-img {
+      transform: scale(1.05);
+    }
+
+    .card-body {
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      margin-top: 0;
+    }
+
+    .card-desc {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      line-height: 1.5;
+      flex-grow: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 15px;
+      border-top: 1px solid #f5f5f5;
+    }
+
+    .price {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .price span {
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-pickup {
+      background-color: transparent;
+      border: 1px solid #ff6b00;
+      color: #ff6b00;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      transition: 0.3s;
+    }
+
+    .btn-pickup:hover {
+      background-color: #fff5eb;
+    }
+
+    /* --- NEW WhatsApp Button Style --- */
+    .btn-whatsapp {
+      background-color: #25D366;
+      /* Official WhatsApp Green */
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      /* Space between icon and text */
+      font-family: 'Inter', sans-serif;
+      transition: 0.3s;
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #128C7E;
+      /* Darker Green on Hover */
+    }
+
+    /* Modals */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background: #fff;
+      width: 90%;
+      max-width: 450px;
+      padding: 25px;
+      border-radius: 12px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #ff6b00;
+    }
+
+    /* Responsive */
+    @media(max-width:1000px) {
+      .laundry-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .laundry-hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      /* Simplified for single file demo */
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar" id="topNav">
+    <div class="nav-inner container">
+      <div class="brand">
+        <div class="mark"><img src="https://image2url.com/images/1763453634014-4471bab2-9fa6-4e58-90ce-f17d59238f33.png"
+            width="50" height="50" alt="logo" /></div>
+        <div class="brand-text">
+          <div class="brand-title">EaseHub</div>
+          <div class="brand-sub">Student services, simplified</div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <a class="btn btn-primary" href="index.html#extra">Explore Now</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="laundry-hero">
+      <div class="hero-text">
+        <h1>Laundry Services</h1>
+        <p>Quick wash, economy and scheduled pickups — student friendly pricing.</p>
+      </div>
+      <div>
+        <a class="btn btn-ghost" href="index.html"><b>Home</b></a>
+      </div>
+    </section>
+
+    <section>
+      <div class="laundry-grid" id="laundryGrid">
+
+        <div class="laundry-card">
+          <div class="laundry-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=600&q=80"
+              class="laundry-img" alt="Wash and Fold">
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Wash & Fold</h3>
+            <p class="card-desc">Complete machine wash, tumble dry, and neat folding. Delivered ready to wear.</p>
+            <div class="card-footer">
+              <div class="price">₹60 <span>/kg</span></div>
+              <div class="btn-group">
+                <button class="btn-pickup" onclick="openPickup('Wash & Fold')">Pickup</button>
+                <button class="btn-whatsapp" onclick="bookOnWhatsApp('Wash & Fold')">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                      d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z" />
+                  </svg>
+                  Book now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="laundry-card">
+          <div class="laundry-img-wrapper">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAH9kpNYbFCAEo3VfxzGimZi8rXal18kWIYg&s"
+              class="laundry-img" alt="Steam Iron">
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Steam Iron</h3>
+            <p class="card-desc">Professional steam ironing to remove wrinkles. Perfect for interviews.</p>
+            <div class="card-footer">
+              <div class="price">₹15 <span>/pc</span></div>
+              <div class="btn-group">
+                <button class="btn-pickup" onclick="openPickup('Steam Iron')">Pickup</button>
+                <button class="btn-whatsapp" onclick="bookOnWhatsApp('Steam Iron')">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                      d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z" />
+                  </svg>
+                  Book now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="laundry-card">
+          <div class="laundry-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1567113463300-102a7eb3cb26?auto=format&fit=crop&w=600&q=80"
+              class="laundry-img" alt="Dry Clean">
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Dry Clean</h3>
+            <p class="card-desc">Premium care for suits, coats, and delicate fabrics that cannot be washed.</p>
+            <div class="card-footer">
+              <div class="price">₹250 <span>/item</span></div>
+              <div class="btn-group">
+                <button class="btn-pickup" onclick="openPickup('Dry Clean')">Pickup</button>
+                <button class="btn-whatsapp" onclick="bookOnWhatsApp('Dry Clean')">
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                      d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592z" />
+                  </svg>
+                  Book now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="pickupModal">
+    <div class="modal-backdrop" onclick="closePickup()"></div>
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closePickup()">✕</button>
+      <h3 style="margin-top:0;">Request Pickup</h3>
+      <p id="pickupServiceTitle" style="color: #666; font-size: 0.9rem; margin-bottom: 20px;"></p>
+
+      <form onsubmit="confirmPickup(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="pName" placeholder="Enter your name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Address / Room No</label>
+          <input type="text" id="pAddress" placeholder="Hostel B, Room 304" required>
+        </div>
+
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input type="tel" id="pContact" placeholder="9876543210" pattern="[0-9]{10}" required>
+        </div>
+
+        <div class="form-group">
+          <label>Dress Amount (Qty)</label>
+          <input type="number" id="pAmount" placeholder="Ex: 5" min="1" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 10px;">Send via WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container f-inner"
+      style="padding: 20px 0; text-align: center; border-top: 1px solid #eee; margin-top: 40px;">
+      <div class="f-left">
+        <strong>EaseHub</strong>
+        <div class="muted" style="color:#666; font-size:0.9rem;">Student services, simplified</div>
+      </div>
+      <div class="f-right muted" style="color:#888; margin-top:10px;">© <span id="yr"></span> EaseHub • Made for
+        Students</div>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================================
+       1. CONFIGURATION (IMPORTANT!)
+       ========================================= */
+    // REPLACE WITH YOUR PHONE NUMBER (Country Code + Number, No + sign)
+    // Example: 919876543210
+    const ownerPhone = "916201614778";
+
+    /* =========================================
+       2. DIRECT WHATSAPP BUTTON LOGIC
+       ========================================= */
+    function bookOnWhatsApp(serviceName) {
+      const message = `Hello, I am interested in the *${serviceName}* laundry service. Can you please provide more details?`;
+      const url = `https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
+
+    /* =========================================
+       3. PICKUP MODAL LOGIC (SENDS FORM TO WA)
+       ========================================= */
+    function openPickup(serviceName) {
+      const modal = document.getElementById('pickupModal');
+      const title = document.getElementById('pickupServiceTitle');
+      title.innerText = "Service: " + serviceName; // Store service name in text
+      modal.classList.add('active');
+    }
+
+    function closePickup() {
+      document.getElementById('pickupModal').classList.remove('active');
+    }
+
+    function confirmPickup(event) {
+      event.preventDefault();
+
+      // Gather data
+      const name = document.getElementById('pName').value;
+      const address = document.getElementById('pAddress').value;
+      const contact = document.getElementById('pContact').value;
+      const amount = document.getElementById('pAmount').value;
+
+      // Get the service name from the <p> tag we set earlier
+      const serviceText = document.getElementById('pickupServiceTitle').innerText;
+
+      // Create WhatsApp Message for the form data
+      const text = `*New Pickup Request*\n\n${serviceText}\nName: ${name}\nAddress: ${address}\nContact: ${contact}\nQty: ${amount}`;
+
+      // Send to WhatsApp
+      window.open(`https://wa.me/${ownerPhone}?text=${encodeURIComponent(text)}`, '_blank');
+
+      closePickup();
+      event.target.reset();
+    }
+
+    // Set Copyright Year
+    document.getElementById('yr').innerText = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
