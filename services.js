@@ -1,3 +1,6 @@
+
+// ✅ Render backend base URL (FINAL)
+const API_BASE_URL = "https://easehub-backend.onrender.com";
 // services.js
 // Exposes Services namespace with helpers for stay/meals/laundry pages.
 // Logic: Static data (30 PGs, 25 Flats), with Section Headers.

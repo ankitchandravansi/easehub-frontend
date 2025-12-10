@@ -1,8 +1,10 @@
+
+// ✅ Render backend base URL (FINAL)
 // script.js
 // Core UI + global modal helpers for EaseHub
+const API_BASE_URL = "https://easehub-backend.onrender.com";
 
 // 👇 Backend ka base URL
-const API_BASE_URL = "https://easehub-backend.onrender.com";
 
 // smooth scroll for anchors
 document.querySelectorAll('a[href^="#"]').forEach(a => {
