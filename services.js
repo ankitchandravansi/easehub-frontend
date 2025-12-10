@@ -1,14 +1,113 @@
-
-// ✅ Render backend base URL (FINAL)
-const API_BASE_URL = "https://easehub-backend.onrender.com";
 // services.js
+// ✅ EaseHub backend config + auth helpers + static services data
+
+// ---------- 1. BACKEND CONFIG (SINGLE SOURCE OF TRUTH) ----------
+
+// Backend base URL – yahi final hai
+const API_BASE_URL = "https://easehub-backend.onrender.com";
+
+// Global expose so any script can use it
+window.API_BASE_URL = API_BASE_URL;
+
+// ---------- 2. GENERIC REQUEST HELPER ----------
+
+async function easehubRequest(path, method = "GET", bodyObj) {
+  const url = `${API_BASE_URL}${path}`;
+
+  const options = {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  if (bodyObj) {
+    options.body = JSON.stringify(bodyObj);
+  }
+
+  const res = await fetch(url, options);
+
+  let data;
+  try {
+    data = await res.json();
+  } catch (err) {
+    throw new Error("Server response parse error");
+  }
+
+  if (!res.ok) {
+    const msg = data?.message || data?.error || "Something went wrong";
+    throw new Error(msg);
+  }
+
+  return data;
+}
+
+// ---------- 3. AUTH HELPERS (LOGIN / SIGNUP / LOGOUT) ----------
+
+async function easehubRegister({ name, email, password }) {
+  // Backend: POST /api/auth/register
+  return easehubRequest("/api/auth/register", "POST", {
+    name,
+    email,
+    password,
+  });
+}
+
+async function easehubLogin({ email, password }) {
+  // Backend: POST /api/auth/login
+  const data = await easehubRequest("/api/auth/login", "POST", {
+    email,
+    password,
+  });
+
+  // Token + user ko store kar lo (agar backend bhej raha ho)
+  if (data?.token) {
+    localStorage.setItem("easehub_token", data.token);
+  }
+  if (data?.user) {
+    localStorage.setItem("easehub_user", JSON.stringify(data.user));
+  }
+
+  return data;
+}
+
+function easehubLogout() {
+  localStorage.removeItem("easehub_token");
+  localStorage.removeItem("easehub_user");
+}
+
+function easehubIsLoggedIn() {
+  return !!localStorage.getItem("easehub_token");
+}
+
+function easehubGetUser() {
+  try {
+    const raw = localStorage.getItem("easehub_user");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+// Global object for other scripts (script.js etc.)
+window.easehubApi = {
+  register: easehubRegister,
+  login: easehubLogin,
+  logout: easehubLogout,
+  isLoggedIn: easehubIsLoggedIn,
+  getUser: easehubGetUser,
+};
+
+// -----------------------------------------------------------------------------
+// 4. STATIC SERVICES DATA (STAY / MEALS / LAUNDRY) – TUMHARA PURANA CODE
+// -----------------------------------------------------------------------------
+
 // Exposes Services namespace with helpers for stay/meals/laundry pages.
 // Logic: Static data (30 PGs, 25 Flats), with Section Headers.
 
-const Services = (function(){
-  
+const Services = (function () {
   // --- 1. DATASETS (Static Data) ---
-  
+
   const STAY_DATA = [
     // --- 30 PGs ---
     { type: 'pg', title: 'PG 1 • Student Home', price: 5500, location: 'North Gate', dist: '1.2', img: 'https://img.staticmb.com/mbphoto/pg/grd2/cropped_images/2025/Jan/20/Photo_h400_w540/GR2-267087-2370725_400_540.jpeg', desc: 'Shared rooms, mess available, WiFi included.' },
@@ -71,44 +170,44 @@ const Services = (function(){
   ];
 
   const MEAL_DATA = [
-    { title:'Weekly Veg Plan A', price:1400, tag:'Veg', img: 'https://picsum.photos/seed/veg1/900/600' },
-    { title:'Weekly Veg Plan B', price:1250, tag:'Veg', img: 'https://picsum.photos/seed/veg2/900/600' },
-    { title:'Weekly Non-Veg Plan A', price:1600, tag:'Non-Veg', img: 'https://picsum.photos/seed/nonveg1/900/600' },
-    { title:'Weekly Non-Veg Plan B', price:1750, tag:'Non-Veg', img: 'https://picsum.photos/seed/nonveg2/900/600' },
-    { title:'Monthly Combo (Student)', price:5200, tag:'Combo', img: 'https://picsum.photos/seed/combo1/900/600' },
-    { title:'Budget Veg', price:1000, tag:'Veg', img: 'https://picsum.photos/seed/veg3/900/600' }
+    { title: 'Weekly Veg Plan A', price: 1400, tag: 'Veg', img: 'https://picsum.photos/seed/veg1/900/600' },
+    { title: 'Weekly Veg Plan B', price: 1250, tag: 'Veg', img: 'https://picsum.photos/seed/veg2/900/600' },
+    { title: 'Weekly Non-Veg Plan A', price: 1600, tag: 'Non-Veg', img: 'https://picsum.photos/seed/nonveg1/900/600' },
+    { title: 'Weekly Non-Veg Plan B', price: 1750, tag: 'Non-Veg', img: 'https://picsum.photos/seed/nonveg2/900/600' },
+    { title: 'Monthly Combo (Student)', price: 5200, tag: 'Combo', img: 'https://picsum.photos/seed/combo1/900/600' },
+    { title: 'Budget Veg', price: 1000, tag: 'Veg', img: 'https://picsum.photos/seed/veg3/900/600' }
   ];
 
   const LAUNDRY_DATA = [
-    { title:'Quick Wash', price:99, desc:'24-hour turnaround • Per kg', img: 'https://picsum.photos/seed/laundry1/900/600' },
-    { title:'Economy', price:69, desc:'48-hour • Budget friendly', img: 'https://picsum.photos/seed/laundry2/900/600' },
-    { title:'Premium Care', price:149, desc:'Stain treatment + express', img: 'https://picsum.photos/seed/laundry3/900/600' }
+    { title: 'Quick Wash', price: 99, desc: '24-hour turnaround • Per kg', img: 'https://picsum.photos/seed/laundry1/900/600' },
+    { title: 'Economy', price: 69, desc: '48-hour • Budget friendly', img: 'https://picsum.photos/seed/laundry2/900/600' },
+    { title: 'Premium Care', price: 149, desc: 'Stain treatment + express', img: 'https://picsum.photos/seed/laundry3/900/600' }
   ];
 
   // --- 2. HELPERS ---
 
   // reveal animation
-  function watchReveal(containerSelector){
-    const observer = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
+  function watchReveal(containerSelector) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
           entry.target.classList.add('show');
           observer.unobserve(entry.target);
         }
       });
-    }, {threshold: 0.12});
-    
+    }, { threshold: 0.12 });
+
     const targets = document.querySelectorAll(containerSelector + ' > *');
-    if(targets.length > 0){
-        targets.forEach(el=> observer.observe(el));
+    if (targets.length > 0) {
+      targets.forEach(el => observer.observe(el));
     }
   }
 
   // Generic card element for stay (PG/Flat)
-  function createStayCard(item){
+  function createStayCard(item) {
     const div = document.createElement('article');
     div.className = 'stay-card';
-    
+
     // UPDATED LAYOUT: Removed "Book Demo". Adjusted buttons to match image format.
     div.innerHTML = `
       <img class="stay-thumb" src="${item.img}" alt="${item.title}">
@@ -132,7 +231,7 @@ const Services = (function(){
     `;
 
     // Handler: Details Modal
-    div.querySelector('.small-more').addEventListener('click', ()=>{
+    div.querySelector('.small-more').addEventListener('click', () => {
       // Removed "Request Demo" button from modal as well
       showModal(item.title, `<p><b>Price:</b> ₹${item.price.toLocaleString()} / month</p>
         <p><b>Location:</b> ${item.location} • ${item.dist} km from campus</p>
@@ -141,16 +240,16 @@ const Services = (function(){
     });
 
     // Handler: Map Link
-    div.querySelector('.small-map').addEventListener('click', ()=>{
-        const mapQuery = encodeURIComponent(item.location + ' Indore');
-        window.open(`https://www.google.com/maps/search/?api=1&query=${mapQuery}`, '_blank');
+    div.querySelector('.small-map').addEventListener('click', () => {
+      const mapQuery = encodeURIComponent(item.location + ' Indore');
+      window.open(`https://www.google.com/maps/search/?api=1&query=${mapQuery}`, '_blank');
     });
-    
+
     // Handler: WhatsApp
     div.querySelector('.small-whatsapp').addEventListener('click', () => {
-        const message = `Hi, I am interested in ${item.title}. Can you please provide more details?`;
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
+      const message = `Hi, I am interested in ${item.title}. Can you please provide more details?`;
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
     });
 
     return div;
@@ -158,19 +257,19 @@ const Services = (function(){
 
   // --- 3. RENDER FUNCTIONS ---
 
-  function renderStay(containerId){
+  function renderStay(containerId) {
     const cont = document.getElementById(containerId);
-    if(!cont) return;
+    if (!cont) return;
     cont.innerHTML = '';
 
     let currentSection = null;
 
-    STAY_DATA.forEach(it=>{
-      if(it.type !== currentSection){
+    STAY_DATA.forEach(it => {
+      if (it.type !== currentSection) {
         currentSection = it.type;
         const header = document.createElement('h2');
         header.innerText = (it.type === 'pg') ? 'Student PGs' : 'Flats & Apartments';
-        header.style.gridColumn = '1 / -1'; 
+        header.style.gridColumn = '1 / -1';
         header.style.width = '100%';
         header.style.margin = '25px 0 15px 0';
         header.style.paddingBottom = '8px';
@@ -181,14 +280,14 @@ const Services = (function(){
       }
       cont.appendChild(createStayCard(it));
     });
-    window.setTimeout(()=> watchReveal('#'+containerId), 120);
+    window.setTimeout(() => watchReveal('#' + containerId), 120);
   }
 
-  function renderMeals(containerId){
+  function renderMeals(containerId) {
     const cont = document.getElementById(containerId);
-    if(!cont) return;
+    if (!cont) return;
     cont.innerHTML = '';
-    MEAL_DATA.forEach((m)=>{
+    MEAL_DATA.forEach((m) => {
       const d = document.createElement('div');
       d.className = 'meal-card';
       // Removed Order (Demo) button
@@ -204,20 +303,20 @@ const Services = (function(){
           <button class="btn btn-ghost meal-details" style="width:100%">View Menu</button>
         </div>
       `;
-      d.querySelector('.meal-details').addEventListener('click', ()=>{
+      d.querySelector('.meal-details').addEventListener('click', () => {
         showModal(m.title, `<p><b>Price:</b> ₹${m.price}</p><p>Sample menu: Dal, Sabji, Roti, Rice, Salad.</p>
-          <img src="${m.img}" style="width:100%;border-radius:10px;margin-top:8px;">`, 'Order Now', ()=>alert('Order placed (demo)!'));
+          <img src="${m.img}" style="width:100%;border-radius:10px;margin-top:8px;">`, 'Order Now', () => alert('Order placed (demo)!'));
       });
       cont.appendChild(d);
     });
-    window.setTimeout(()=> watchReveal('#'+containerId), 100);
+    window.setTimeout(() => watchReveal('#' + containerId), 100);
   }
 
-  function renderLaundry(containerId){
+  function renderLaundry(containerId) {
     const cont = document.getElementById(containerId);
-    if(!cont) return;
+    if (!cont) return;
     cont.innerHTML = '';
-    LAUNDRY_DATA.forEach(p=>{
+    LAUNDRY_DATA.forEach(p => {
       const e = document.createElement('div');
       e.className = 'laundry-card';
       e.innerHTML = `
@@ -229,24 +328,24 @@ const Services = (function(){
           <button class="btn btn-ghost details">Details</button>
         </div>
       `;
-      e.querySelector('.details').addEventListener('click', ()=> {
-        showModal(p.title, `<p><b>Price:</b> ₹${p.price}/kg</p><p>${p.desc}</p>`, 'Schedule Pickup', ()=>alert('Pickup scheduled (demo)'));
+      e.querySelector('.details').addEventListener('click', () => {
+        showModal(p.title, `<p><b>Price:</b> ₹${p.price}/kg</p><p>${p.desc}</p>`, 'Schedule Pickup', () => alert('Pickup scheduled (demo)'));
       });
       cont.appendChild(e);
     });
-    window.setTimeout(()=> watchReveal('#'+containerId), 100);
+    window.setTimeout(() => watchReveal('#' + containerId), 100);
   }
 
   // --- 4. PUBLIC API ---
   return {
-    initStayPage: function(opts){
-      opts = Object.assign({containerId:'listGrid'}, opts || {});
+    initStayPage: function (opts) {
+      opts = Object.assign({ containerId: 'listGrid' }, opts || {});
       renderStay(opts.containerId);
     },
-    initMealsPage: function(opts){
+    initMealsPage: function (opts) {
       renderMeals((opts || {}).containerId || 'mealGrid');
     },
-    initLaundryPage: function(opts){
+    initLaundryPage: function (opts) {
       renderLaundry((opts || {}).containerId || 'laundryGrid');
     }
   };
